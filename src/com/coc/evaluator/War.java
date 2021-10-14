@@ -14,6 +14,7 @@ public class War {
     public void init() {
         WarEvent[] array = new WarEvent[events.size()];
         array = events.toArray(array);
+
         for (int i = 1; i < array.length; i++) {
             WarEvent current = array[i];
             int j = i - 1;
@@ -23,8 +24,8 @@ public class War {
             }
             array[j+1] = current;
         }
-        for (int i = 0; i < array.length; i++) {
-            players.add(array[i].name + array[i].tag);
+        for (WarEvent warEvent : array) {
+            players.add(warEvent.name + warEvent.tag);
         }
         System.out.println(players.toString());
 
@@ -37,18 +38,10 @@ public class War {
             }
             array[j+1] = current;
         }
-        for (int i = 0; i < array.length; i++) {
-            enemies.add(array[i].defenderName + array[i].defenderTag);
+        for (WarEvent warEvent : array) {
+            enemies.add(warEvent.defenderName + warEvent.defenderTag);
         }
         System.out.println(enemies.toString());
-    }
-
-    public ArrayList<String> getPlayers() {
-        return players;
-    }
-
-    public ArrayList<String> getEnemies() {
-        return enemies;
     }
 
     public ArrayList<WarEvent> getEvents() {

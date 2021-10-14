@@ -11,9 +11,6 @@ public class WarEvent {
     String warID;
 
     @CsvBindByName
-    int order_;
-
-    @CsvBindByName
     String name;
 
     @CsvBindByName

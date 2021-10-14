@@ -5,9 +5,14 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Program {
+
+    private static final double WEIGHT_STARS = 1.2;
+    private static final double WEIGHT_DESTRUCTION = 0.02;
+    private static final double WEIGHT_HIGHER_TH = 0.1;
+    private static final double WEIGHT_LOWER_TH = 0.3;
+    private static final double WEIGHT_TH_LEVEL = 0.005;
 
     private Map<String, Double> players = new HashMap<>();
     private ArrayList<War> wars = new ArrayList<>();
@@ -18,16 +23,11 @@ public class Program {
     }
 
     public void init(String filename) throws Exception{
-        java.util.List<WarEvent> beans =
+        List<WarEvent> beans =
                 new CsvToBeanBuilder(new FileReader(filename))
                 .withType(WarEvent.class).build().parse();
 
-        Iterator iterator = beans.iterator();
-        while (iterator.hasNext()) {
-            WarEvent we = (WarEvent) iterator.next();
-            if (!we.attacker_is_home_clan)
-                iterator.remove();
-        }
+        beans.removeIf(we -> !we.attacker_is_home_clan);
 
         int i = 0;
         War currentWar = wars.get(i);
@@ -44,7 +44,6 @@ public class Program {
 
             players.put(we.name+we.tag, 0.0);
         }
-
         createRanking();
     }
 
@@ -53,21 +52,18 @@ public class Program {
             for (WarEvent we : w.getEvents()) {
                 for (String player : players.keySet()) {
                     if ((we.name+we.tag).equals(player)) {
-                        double val = we.stars * 1.2 + we.destructionPercentage * 0.02;
+                        double val = we.stars * WEIGHT_STARS + we.destructionPercentage * WEIGHT_DESTRUCTION;
 
                         if (we.thLevel < we.defenderTH)
-                            val *= 1.0 + (we.defenderTH - we.thLevel) * 0.3;
+                            val *= 1.0 + (we.defenderTH - we.thLevel) * WEIGHT_LOWER_TH;
                         else if (we.thLevel > we.defenderTH)
-                            val *= 1.0 - (we.thLevel - we.defenderTH) * 0.1;
-                        val *= 1.0 + we.thLevel / 200.0;
+                            val *= 1.0 - (we.thLevel - we.defenderTH) * WEIGHT_HIGHER_TH;
+                        val *= 1.0 + we.thLevel * WEIGHT_TH_LEVEL;
 
                         val += players.get(player);
                         players.put(player, Math.round(val * 100.0) / 100.0);
                     }
                 }
-
-                //if (w.getPlayers().indexOf(we.name+we.tag) < w.getEnemies().indexOf(we.defenderName+we.defenderTag))
-
             }
             System.out.println(players);
         }
