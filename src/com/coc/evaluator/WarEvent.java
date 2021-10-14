@@ -17,12 +17,6 @@ public class WarEvent {
     String tag;
 
     @CsvBindByName
-    String defenderName;
-
-    @CsvBindByName
-    String defenderTag;
-
-    @CsvBindByName
     int stars;
 
     @CsvBindByName
@@ -30,9 +24,6 @@ public class WarEvent {
 
     @CsvBindByName
     int rank;
-
-    @CsvBindByName
-    int defenderRank;
 
     @CsvBindByName
     int thLevel;

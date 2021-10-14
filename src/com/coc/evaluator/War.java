@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class War {
 
     private ArrayList<String> players = new ArrayList<>();
-    private ArrayList<String> enemies = new ArrayList<>();
     private ArrayList<WarEvent> events = new ArrayList<>();
     private String id;
 
@@ -28,20 +27,6 @@ public class War {
             players.add(warEvent.name + warEvent.tag);
         }
         System.out.println(players.toString());
-
-        for (int i = 1; i < array.length; i++) {
-            WarEvent current = array[i];
-            int j = i - 1;
-            while(j >= 0 && current.defenderRank > array[j].defenderRank) {
-                array[j+1] = array[j];
-                j--;
-            }
-            array[j+1] = current;
-        }
-        for (WarEvent warEvent : array) {
-            enemies.add(warEvent.defenderName + warEvent.defenderTag);
-        }
-        System.out.println(enemies.toString());
     }
 
     public ArrayList<WarEvent> getEvents() {
