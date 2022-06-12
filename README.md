@@ -10,7 +10,7 @@ You can also export the complete clan war history and edit the file by hand so t
 Make sure to rename the file to "league.csv" (or change the expected file name in the code) for the program to recognize it and then move it in the same directory as the CoCLeagueEvaluator.jar file.  
 Finally, start cmd.exe, navigate to the directory containing the CoCLeagueEvaluator.jar file and run the command "java -jar CoCLeagueEvaluator.jar" for the ranking to be calculated.
 
-## Customization
+## Configuration
 
 Change "league.csv" in Main.java if you prefer your .csv files to have another name.
 
@@ -21,4 +21,4 @@ To modify the ranking, change the values of the constants in Program.java to adj
 Make sure the .csv file uses commas as separators. Semicolons etc. will not work and cause errors.
 
 Sometimes the .csv file can be broken by player names containing commas or additional commas being inserted by encoding conversion problems.
-You will get an error in the program should this happen. There you can see which line in the .cv file caused the problem. Manually find and remove the wrong comma in that line and try to run the program again.
+You will get an error in the program should this happen. There you can see which line in the .csv file caused the problem. Manually find and remove the wrong comma in that line and try to run the program again.
